@@ -1,0 +1,13 @@
+# Rename this to `servers.yaml` and enter correct data
+# Options like cmdchar can be found in cmd/core.rb
+freenode:
+	host: irc.freenode.net
+	port: 6667
+
+	user: user
+	nick: nick
+	pass: pass
+	use_pass: false
+	autoowner: your_hostmask_here
+	autojoin:
+	  - "#botters-test"

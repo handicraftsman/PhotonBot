@@ -1,0 +1,1 @@
+load "cmd/perm/cmd.rb"
