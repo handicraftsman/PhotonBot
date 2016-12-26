@@ -43,7 +43,7 @@ end
 
 # NCTCP
 CmdHelp.new "utils", "nctcp", "nctcp <target> <text>", "Sends notice-powered CTCP (lvl5)"
-oncmd(/notice (.+?) (.+)/) do |m, data|
+oncmd(/nctcp (.+?) (.+)/) do |m, data|
   if db_getperm(m.bot, m.host) >= 5
     m.bot.a_nctcp(data[1], data[2])
     m.reply "Sent!"

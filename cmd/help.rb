@@ -61,7 +61,7 @@ oncmd(/help (.+)/) do |m, data|
 end
 oncmd(/help/) do |m, data|
   m.reply "Use `list` command to list all parts. `list <part>` " +
-    "to list all commands in the given part."
+    "to list all commands in the given part. Use `help <cmd>` to get info about given command"
 end
 
 CmdHelp.new "help", "list", "list [part]", "Displays part list. If part given - displays command list in that part"

@@ -23,7 +23,7 @@ end
 
 CmdHelp.new "random", "calc", "calc <name> [= text]", "Displays calc by `name`. If `text` is present - sets it"
 oncmd(/calc (.+) = (.+)/) do |m, data|
-  db_setcalc(m.bot, data[1], "#{data[2]} [#{m.nick}] {#{DateTime.now.gregorian.strftime "%d.%m.%y"}}")
+  db_setcalc(m.bot, data[1], "#{data[2]} [#{m.nick}!#{m.user}] {#{DateTime.now.gregorian.strftime "%d.%m.%y"}}")
   m.reply "Done!"
 end
 oncmd(/calc (.+)/) do |m, data|
