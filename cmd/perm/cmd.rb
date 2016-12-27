@@ -28,6 +28,18 @@ oncmd(/csql (.+?) (.+)/) do |m, data|
   end
 end
 
+CmdHelp.new "admin", "esql", "esql <server> <query>", "Executes given sql query on all servers (lvl11)"
+oncmd(/esql (.+)/) do |m, data|
+  query = data[1]
+  if db_getperm(m.bot, m.host) >= 11
+    $dbs.each do |name, db|
+      out = db.execute query
+      m.reply "SQL: #{name} -> #{out}"
+    end
+  else
+    fail CMDNoPermError, $err_noperms
+  end
+end
 
 CmdHelp.new "admin", "perm", "perm <host> [lvl]", "Gets `host`'s permission level. If `lvl` is present - sets it (lvl8)"
 oncmd(/perm (.+) ([0-9]+)/) do |m, data|
