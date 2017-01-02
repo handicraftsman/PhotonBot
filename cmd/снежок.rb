@@ -1,4 +1,3 @@
-CmdHelp.new "rus", "снежок", "снежок <цель>", "Швыряет снежок в цель"
 $rus_throwtargets = [
   "руку",
   "ногу",
@@ -14,6 +13,7 @@ $rus_throwtargets.map! do |i|
   "попал в #{i}"
 end
 
+CmdHelp.new "rus", "снежок", "снежок <цель>", "Швыряет снежок в цель"
 oncmd(/снежок (.+)/) do |m, data|  
   if data[1].squish == "всех"
     target = "во всех"
@@ -24,6 +24,7 @@ oncmd(/снежок (.+)/) do |m, data|
   m.bot.a_action m.sendto, "кинул снежком #{target} и #{y}."
 end
 
+CmdHelp.new "rus", "снежкотлета", "снежкотлета <цель>", "Швыряет снежкотлету в цель"
 oncmd(/снежкотлета (.+)/) do |m, data|
   if data[1].squish == "всех"
     target = "во всех"
