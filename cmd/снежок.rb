@@ -7,10 +7,15 @@ $rus_throwtargets = [
   "пятую точку",
   "пах",
   "голову (headshot!)",
+  "промахнулся"
 ]
 
 $rus_throwtargets.map! do |i|
-  "попал в #{i}"
+  if i == "промахнулся"
+    "промахнулся"
+  else
+    "попал в #{i}"
+  end
 end
 
 CmdHelp.new "rus", "снежок", "снежок <цель>", "Швыряет снежок в цель"
@@ -20,7 +25,7 @@ oncmd(/снежок (.+)/) do |m, data|
   else
     target = "в " + data[1].squish
   end
-  y = [$rus_throwtargets.sample, "промахнулся"].sample
+  y = $rus_throwtargets.sample
   m.bot.a_action m.sendto, "кинул снежком #{target} и #{y}."
 end
 
@@ -31,7 +36,7 @@ oncmd(/снежкотлета (.+)/) do |m, data|
   else
     target = "в " + data[1].squish
   end
-  y = [$rus_throwtargets.sample, "промахнулся"].sample
+  y = $rus_throwtargets.sample
   m.bot.a_action m.sendto, "взял снежок и котлету, смял в единое целое, кинул #{target} и #{y}."
 end
 
@@ -42,7 +47,7 @@ oncmd(/котлета (.+)/) do |m, data|
   else
     target = "в " + data[1].squish
   end
-  y = [$rus_throwtargets.sample, "промахнулся"].sample
+  y = $rus_throwtargets.sample
   m.bot.a_action m.sendto, "кинул котлету #{target} и #{y}."
 end
 
