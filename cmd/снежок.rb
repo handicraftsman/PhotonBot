@@ -42,3 +42,24 @@ end
 oncmd(/пнутьбалду (.+)/) do |m, data|
   m.bot.a_action m.sendto, "пнул #{data[1].squish}. Ибо балда."
 end
+
+CmdHelp.new "rus", "грызть", "грызть [цель]", "Грызёт цель"
+oncmd(/грызть/) do |m, data|
+  m.bot.a_action m.sendto, "грызёт #{m.nick}..."
+end
+oncmd(/грызть (.+)/) do |m, data|
+  m.bot.a_action m.sendto, "грызёт #{data[1].squish}..."
+end
+
+$ru_chewtaste = [
+  "Очень вкусно.",
+  "Не особо...",
+  "На вкус как Г =\\"
+]
+CmdHelp.new "rus", "пожевать", "пожевать [цель]", "Жуёт цель"
+oncmd(/грызть/) do |m, data|
+  m.bot.a_action m.sendto, "немного пожевал #{m.nick}. #{$ru_chewtaste.sample}"
+end
+oncmd(/пожевать (.+)/) do |m, data|
+  m.bot.a_action m.sendto, "немного пожевал #{data[1].squish}. #{$ru_chewtaste.sample}"
+end
