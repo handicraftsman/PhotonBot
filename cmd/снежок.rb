@@ -35,6 +35,17 @@ oncmd(/снежкотлета (.+)/) do |m, data|
   m.bot.a_action m.sendto, "взял снежок и котлету, смял в единое целое, кинул #{target} и #{y}."
 end
 
+CmdHelp.new "rus", "котлета", "котлета <цель>", "Швыряет котлету в цель"
+oncmd(/котлета (.+)/) do |m, data|
+  if data[1].squish == "всех"
+    target = "во всех"
+  else
+    target = "в " + data[1].squish
+  end
+  y = [$rus_throwtargets.sample, "промахнулся"].sample
+  m.bot.a_action m.sendto, "кинул котлету #{target} и #{y}."
+end
+
 CmdHelp.new "rus", "пнутьбалду", "пнутьбалду [цель]", "Пинает балду"
 oncmd(/пнутьбалду/) do |m, data|
   m.bot.a_action m.sendto, "пнул #{m.nick}. Ибо балда."

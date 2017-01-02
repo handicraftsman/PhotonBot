@@ -15,3 +15,8 @@ load "cmd/chanop.rb"
 
 # Rus
 load "cmd/снежок.rb"
+
+# Unknown
+oncmd(/.+/) do |m, data|
+  m.reply "Unknown command. Try ;help for help."
+end
