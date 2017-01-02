@@ -6,5 +6,9 @@ task :run do
   $pbversion = "0.0.0.1"
 
   require "./main"
-  App.start!
+  begin
+    App.start!
+  catch StandardError => e
+    RG::Log.panic e.inspect
+  end
 end

@@ -12,3 +12,6 @@ load "cmd/calc.rb"
 
 load "cmd/utils.rb"
 load "cmd/chanop.rb"
+
+# Rus
+load "cmd/снежок.rb"

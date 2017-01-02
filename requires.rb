@@ -5,4 +5,6 @@ require "date"
 require "yaml"
 require "socket"
 
+require "irb"
+
 RG::Log.write "Finished loading libraries"

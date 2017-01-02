@@ -33,7 +33,7 @@ module App
       self.write "USER #{@user} 0 * :#{@rname}"
       self.write "NICK #{@nick}"
       
-      while line = @sock.gets
+      while line = @sock.gets.force_encoding("UTF-8")
         # Write message
         RG::Log.write "#{@name}:< #{line}"
         
@@ -70,8 +70,8 @@ module App
     #end
 
     def write(msg)
-      RG::Log.write "#{@name}:> #{msg}"
-      @sock.puts msg
+      RG::Log.write "#{@name}:> #{msg.encode('UTF-8', msg.encoding)}"
+      @sock.puts msg.encode("UTF-8", msg.encoding)
     end
 
     def inspect

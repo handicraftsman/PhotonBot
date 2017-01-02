@@ -28,7 +28,7 @@ oncmd(/csql (.+?) (.+)/) do |m, data|
   end
 end
 
-CmdHelp.new "admin", "esql", "esql <server> <query>", "Executes given sql query on all servers (lvl11)"
+CmdHelp.new "admin", "esql", "esql <query>", "Executes given SQL-query on all servers (lvl11)"
 oncmd(/esql (.+)/) do |m, data|
   query = data[1]
   if db_getperm(m.bot, m.host) >= 11
