@@ -11,5 +11,5 @@ oncmd(/снежок (.+)/) do |m, data|
     "голову (headshot!)",
     "астрал"
   ].sample
-  m.bot.a_action m.sendto, "кинул снежком в #{data[1]} и попал в #{x}."
+  m.bot.a_action m.sendto, "кинул снежком в #{data[1].squish} и попал в #{x}."
 end

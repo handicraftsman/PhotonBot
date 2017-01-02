@@ -1,4 +1,4 @@
-require "./cmd/perm/db.rb"
+load "./cmd/perm/db.rb"
 
 module App
   class Bot

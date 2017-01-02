@@ -1,4 +1,4 @@
-require "./cmd/loader.rb"
+load "./cmd/loader.rb"
 
 module App
   module Reactor
@@ -11,15 +11,15 @@ module App
 
       def initialize(bot, sender, target, message)
         @bot = bot
-        @sender_raw = sender
-        @target = target
-        @message = message
+        @sender_raw = sender.force_encoding("UTF-8")
+        @target = target.force_encoding("UTF-8")
+        @message = message.force_encoding("UTF-8")
 
         # PhotonBot!~ruibot@localhost.localdomain
         data = /(.+)!(.+)@(.+)/.match(@sender_raw)
-        @nick = data[1]
-        @user = data[2]
-        @host = data[3]
+        @nick = data[1].force_encoding("UTF-8")
+        @user = data[2].force_encoding("UTF-8")
+        @host = data[3].force_encoding("UTF-8")
 
         @sendto = if "&#+!".include? @target[0]
                     @target

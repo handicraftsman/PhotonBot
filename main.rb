@@ -1,7 +1,9 @@
-require "./conf"
-require "./irc"
-  require "./irc_privmsg"
-  require "./irc_actions"
+$running = false
+
+load "./conf.rb"
+load "./irc.rb"
+  load "./irc_privmsg.rb"
+  load "./irc_actions.rb"
 
 module App
   def self.bots
@@ -10,6 +12,7 @@ module App
 
   def self.start!
     RG::Log.write "PhotonBot: Starting..."
+    $dbs = Hash.new
     @conf = Conf.parse!
 
     @bots = {}

@@ -13,13 +13,19 @@ def onmsg(regex, &func)
 end
 
 def oncmd(regex, &func)
-  regex = Regexp.new(/#{$cmdchar}/.to_s + regex.to_s + "\r")
+  regex = Regexp.new(/#{$cmdchar}/.to_s + regex.to_s + "\\s*" + "\r")
   onmsg(regex, &func)
 end
 
 def onctcp(regex, &func)
   regex = Regexp.new("\x01" + regex.to_s + /.*/.to_s + "\x01")
   onmsg(regex, &func)
+end
+
+class ::String
+  def squish
+    self.gsub(/\s+/, " ").strip
+  end
 end
 
 def reload

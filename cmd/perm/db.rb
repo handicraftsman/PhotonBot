@@ -1,4 +1,6 @@
-$dbs = Hash.new
+unless $running
+  
+end
 
 class DBError < StandardError
 end

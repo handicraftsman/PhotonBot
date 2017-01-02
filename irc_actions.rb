@@ -17,7 +17,7 @@ module App
       self
     end
     def a_ctcp(target, msg)
-      self.write "PRIVMSG #{target} :\x01#{msg}\x01"
+      self.a_privmsg target, "\x01#{msg}\x01"
       self
     end
     def a_action(target, msg)
