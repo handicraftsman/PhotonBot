@@ -14,7 +14,7 @@ load "cmd/utils.rb"
 load "cmd/chanop.rb"
 
 # Rus
-load "cmd/снежок.rb"
+load "cmd/rus.rb"
 
 # Unknown
 oncmd(/.+/) do |m, data|

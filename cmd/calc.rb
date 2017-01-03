@@ -1,33 +1,33 @@
 def db_getcalc(bot, name)
   db = $dbs[bot.name]
   rows = db.execute <<-SQL
-    select * from calcs where name="#{name}";
+    select * from calcs where name="#{name.antiinject}";
   SQL
   if rows == []
     return ""
   end
-  return rows[0][1]
+  return rows[0][1].quotenormalize
 end
 
 def db_setcalc(bot, name, text)
   db = $dbs[bot.name]
   rows = db.execute <<-SQL
-    select * from calcs where name="#{name}";
+    select * from calcs where name="#{name.antiinject}";
   SQL
   if rows == []
-    db.execute %{insert into calcs (name, text) values ("#{name}", "#{text}");}
+    db.execute %{insert into calcs (name, text) values ("#{name.antiinject}", "#{text.antiinject}");}
   else
-    db.execute %{update calcs set text = "#{text}" where name = "#{name}";}
+    db.execute %{update calcs set text = "#{text.antiinject}" where name = "#{name.antiinject}";}
   end
 end
 
 def db_delcalc(bot, name)
   db = $dbs[bot.name]
   rows = db.execute <<-SQL
-    select * from calcs where name="#{name}";
+    select * from calcs where name="#{name.antiinject}";
   SQL
   unless rows == []
-    db.execute %{delete from calcs where name="#{name}"}
+    db.execute %{delete from calcs where name="#{name.antiinject}"}
   end
 end
 

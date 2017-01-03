@@ -22,12 +22,6 @@ def onctcp(regex, &func)
   onmsg(regex, &func)
 end
 
-class ::String
-  def squish
-    self.gsub(/\s+/, " ").strip
-  end
-end
-
 def reload
   $cmds = {}
   $cmdpos = 0

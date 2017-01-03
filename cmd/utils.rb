@@ -21,7 +21,8 @@ end
 # CTCP
 onctcp(/VERSION/) do |m, data|
   m.bot.a_nctcp m.nick, "VERSION PhotonBot v#{$pbversion}. " +
-    "Ruby v#{RUBY_VERSION}-#{RUBY_PATCHLEVEL} on #{RUBY_PLATFORM}"
+    "Ruby v#{RUBY_VERSION}-#{RUBY_PATCHLEVEL} on #{RUBY_PLATFORM}. " + 
+    "RubyGoods v#{RG.getgemver("rubygoods")}. SQLite3 v#{RG.getgemver("sqlite3")}"
 end
 
 onctcp(/TIME/) do |m, data|
