@@ -1,4 +1,4 @@
-CmdHelp.new "admin", "r", "r", "Reloads all commands (but not bot) (lvl10)"
+CmdHelp.new "admin", "r", "r", "Reloads all commands and bot classes (lvl10)"
 oncmd(/r/) do |m, data|
   if db_getperm(m.bot, m.host) >= 10
     reload
