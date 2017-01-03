@@ -3,7 +3,7 @@ task :default => :run
 task :run do
   require "./requires"
 
-  $pbversion = "0.0.1"
+  $pbversion = "0.0.2"
 
   require "./main"
   App.start!
