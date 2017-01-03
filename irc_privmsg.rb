@@ -34,7 +34,18 @@ module App
         $cmds.each do |x|
           if data = x[1][0].match(@message) 
             RG::Log.write "Starting #{x[1][1].inspect}"
-            x[1][1].call(self, data)
+            if $delays[x[0]] == nil
+              $delays[x[0]] = 0
+            end
+            y = ($delays[x[0]] - getsecs).abs
+            if ($delays[x[0]] == 0) or (y > x[1][2]) or (y <= 0) or (db_getperm(@bot, @host) >= $nodelaylvl)
+              i = x[1]
+              $delays[x[0]] = getsecs + i[2]
+              i[1].call(self, data)
+            else
+              self.bot.a_nctcp @nick, "err: you must wait #{($delays[x[0]] - getsecs)} seconds!"
+            end
+
             RG::Log.write "Finished #{x[1][1].inspect}"
             break
           end
@@ -43,7 +54,7 @@ module App
       end
 
       def reply(msg)
-        bot.write "PRIVMSG #{@sendto} :#{msg}"
+        bot.a_privmsg @sendto, msg
       end
     end
   end

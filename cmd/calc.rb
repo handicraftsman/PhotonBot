@@ -32,14 +32,14 @@ def db_delcalc(bot, name)
 end
 
 CmdHelp.new "random", "calc", "calc <name> [= text]", "Displays calc by `name`. If `text` is present - sets it"
-oncmd(/calc (.+) = nil/) do |m, data|
+oncmd(/calc (.+) = nil/, 5) do |m, data|
   db_delcalc(m.bot, data[1].squish)
   m.reply "Done!"
 end 
-oncmd(/calc (.+) = (.+)/) do |m, data|
+oncmd(/calc (.+) = (.+)/, 5) do |m, data|
   db_setcalc(m.bot, data[1].squish, "#{data[2].squish.force_encoding("UTF-8")} [#{m.nick}!#{m.user}] {#{DateTime.now.gregorian.strftime "%d.%m.%y"}}")
   m.reply "Done!"
 end
-oncmd(/calc (.+)/) do |m, data|
+oncmd(/calc (.+)/, 5) do |m, data|
   m.reply "#{data[1].squish} = #{db_getcalc(m.bot, data[1].squish.force_encoding("UTF-8"))}"
 end

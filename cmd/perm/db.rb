@@ -1,7 +1,3 @@
-unless $running
-  
-end
-
 class DBError < StandardError
 end
 

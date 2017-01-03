@@ -19,7 +19,7 @@ $rus_throwtargets.map! do |i|
 end
 
 CmdHelp.new "rus", "снежок", "снежок <цель>", "Швыряет снежок в цель"
-oncmd(/снежок (.+)/) do |m, data|  
+oncmd(/снежок (.+)/, 5) do |m, data|  
   if data[1].squish == "всех"
     target = "во всех"
   else
@@ -30,7 +30,7 @@ oncmd(/снежок (.+)/) do |m, data|
 end
 
 CmdHelp.new "rus", "снежкотлета", "снежкотлета <цель>", "Швыряет снежкотлету в цель"
-oncmd(/снежкотлета (.+)/) do |m, data|
+oncmd(/снежкотлета (.+)/, 5) do |m, data|
   if data[1].squish == "всех"
     target = "во всех"
   else
@@ -41,7 +41,7 @@ oncmd(/снежкотлета (.+)/) do |m, data|
 end
 
 CmdHelp.new "rus", "котлета", "котлета <цель>", "Швыряет котлету в цель"
-oncmd(/котлета (.+)/) do |m, data|
+oncmd(/котлета (.+)/, 5) do |m, data|
   if data[1].squish == "всех"
     target = "во всех"
   else
@@ -52,18 +52,18 @@ oncmd(/котлета (.+)/) do |m, data|
 end
 
 CmdHelp.new "rus", "пнутьбалду", "пнутьбалду [цель]", "Пинает балду"
-oncmd(/пнутьбалду/) do |m, data|
+oncmd(/пнутьбалду/, 5) do |m, data|
   m.bot.a_action m.sendto, "пнул #{m.nick}. Ибо балда."
 end
-oncmd(/пнутьбалду (.+)/) do |m, data|
+oncmd(/пнутьбалду (.+)/, 5) do |m, data|
   m.bot.a_action m.sendto, "пнул #{data[1].squish}. Ибо балда."
 end
 
 CmdHelp.new "rus", "грызть", "грызть [цель]", "Грызёт цель"
-oncmd(/грызть/) do |m, data|
+oncmd(/грызть/, 5) do |m, data|
   m.bot.a_action m.sendto, "грызёт #{m.nick}..."
 end
-oncmd(/грызть (.+)/) do |m, data|
+oncmd(/грызть (.+)/, 5) do |m, data|
   m.bot.a_action m.sendto, "грызёт #{data[1].squish}..."
 end
 
@@ -74,9 +74,9 @@ $ru_chewtaste = [
   "На вкус как сыр Грюйер"
 ]
 CmdHelp.new "rus", "пожевать", "пожевать [цель]", "Жуёт цель"
-oncmd(/грызть/) do |m, data|
+oncmd(/грызть/, 5) do |m, data|
   m.bot.a_action m.sendto, "немного пожевал #{m.nick}. #{$ru_chewtaste.sample}"
 end
-oncmd(/пожевать (.+)/) do |m, data|
+oncmd(/пожевать (.+)/, 5) do |m, data|
   m.bot.a_action m.sendto, "немного пожевал #{data[1].squish}. #{$ru_chewtaste.sample}"
 end

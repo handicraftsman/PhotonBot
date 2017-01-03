@@ -13,11 +13,11 @@ module App
       self
     end
     def a_privmsg(target, msg)
-      self.write "PRIVMSG #{target} :#{msg}"
+      self.write "PRIVMSG #{target} :\u200B#{msg}"
       self
     end
     def a_ctcp(target, msg)
-      self.a_privmsg target, "\x01#{msg}\x01"
+      self.write "PRIVMSG #{target} :\x01#{msg}\x01"
       self
     end
     def a_action(target, msg)
@@ -25,7 +25,7 @@ module App
       self
     end
     def a_notice(target, msg)
-      self.write "NOTICE #{target} :#{msg}"
+      self.write "NOTICE #{target} :\u200B#{msg}"
       self
     end
     def a_nctcp(target, msg)
