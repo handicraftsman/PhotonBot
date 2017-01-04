@@ -55,7 +55,7 @@ module App
               Reactor::Privmsg.new(self, sender, target, message)
             rescue StandardError => e
               RG::Log.err e.inspect
-              self.write "PRIVMSG #{target} :err: #{e.inspect}" 
+              self.a_notice (/(.*)!.*@.*/.match sender)[1], "err: #{e.inspect}" 
             end
           end
         end

@@ -18,6 +18,11 @@ def db_new(bot)
         text varchar(4096)
       );
     SQL
+    db.execute <<-SQL
+      create table ignores ( 
+        regex varchar(64) 
+      );
+    SQL
     if bot.autoowner != nil
       db.execute %{insert into perms (host, lvl) values (\"#{bot.autoowner}\", 11);}
     end
@@ -48,5 +53,33 @@ def db_setperm(bot, host, lvl)
     db.execute %{insert into perms (host, lvl) values ("#{host}", #{lvl});}
   else
     db.execute %{update perms set lvl = #{lvl} where host = "#{host}";}
+  end
+end
+
+def db_addignore(bot, data)
+  db = $dbs[bot.name]
+  unless db_ignored?(bot, data)
+    db.execute %{insert into ignores (regex) values ("#{data}")}
+  end
+end
+
+def db_ignored?(bot, data)
+  db = $dbs[bot.name]
+  rows = db.execute %{select * from ignores}
+  rows.each do |row|
+    regex = row[0].gsub(".", "\\.").gsub("*", ".*")
+    puts regex.inspect
+    puts Regexp.new(regex).inspect
+    if Regexp.new(regex).match(data)
+      return true
+    end
+  end
+  return false
+end
+
+def db_delignore(bot, data)
+  db = $dbs[bot.name]
+  if db_ignored?(bot, data)
+    db.execute %{delete from ignores where regex="#{data}"}
   end
 end

@@ -31,30 +31,46 @@ module App
         else
         end
 
-        $cmds.each do |x|
-          if data = x[1][0].match(@message) 
-            RG::Log.write "Starting #{x[1][1].inspect}"
-            if $delays[x[0]] == nil
-              $delays[x[0]] = 0
-            end
-            y = ($delays[x[0]] - getsecs).abs
-            if ($delays[x[0]] == 0) or (y > x[1][2]) or (y <= 0) or (db_getperm(@bot, @host) >= $nodelaylvl)
-              i = x[1]
-              $delays[x[0]] = getsecs + i[2]
-              i[1].call(self, data)
-            else
-              self.bot.a_nctcp @nick, "err: you must wait #{($delays[x[0]] - getsecs)} seconds!"
-            end
+        ignored = db_ignored?(self.bot, self.sender_raw)
+        unless ignored and (@host != @bot.autoowner)
+          $cmds.each do |x|
+            if data = x[1][0].match(@message)
+              RG::Log.write "Starting #{x[1][1].inspect}"
+              if $delays[x[0]] == nil
+                $delays[x[0]] = 0
+              end
+              y = ($delays[x[0]] - getsecs).abs
+              ignore = false
+              if (perm = db_getperm(@bot, @host)) < x[1][3]
+                if perm < 0
+                  ignore = true
+                else
+                  fail CMDNoPermError, "Your permission level must be at least #{x[1][3]} to do that!"
+                end
+              end
+              unless ignore
+                if ($delays[x[0]] == 0) or (y > x[1][2]) or (y <= 0) or (db_getperm(@bot, @host) >= $nodelaylvl)
+                  i = x[1]
+                  $delays[x[0]] = getsecs + i[2]
+                  i[1].call(self, data)
+                else
+                  self.bot.a_nctcp @nick, "err: you must wait #{($delays[x[0]] - getsecs)} seconds!"
+                end
+              end
 
-            RG::Log.write "Finished #{x[1][1].inspect}"
-            break
+              RG::Log.write "Finished #{x[1][1].inspect}"
+              break
+            end
           end
         end
-
+        
       end
 
       def reply(msg)
         bot.a_privmsg @sendto, msg
+      end
+      def nreply(msg)
+        bot.a_notice @nick, msg
       end
     end
   end

@@ -1,11 +1,7 @@
 CmdHelp.new "admin", "r", "r", "Reloads all commands and bot classes (lvl10)"
-oncmd(/r/) do |m, data|
-  if db_getperm(m.bot, m.host) >= 10
-    reload
-    m.reply "Done!"
-  else
-    fail CMDNoPermError, $err_noperms
-  end
+oncmd(/r/, 0, 10) do |m, data|
+  reload
+  m.nreply "Done!"
 end
 
 CmdHelp.new "utils", "servs", "servs", "Shows server list"
@@ -14,7 +10,7 @@ oncmd(/servs/) do |m, data|
   App.bots.each do |name, _|
     str << name + " "
   end
-  m.reply str
+  m.nreply str
 end
 
 
@@ -31,13 +27,9 @@ end
 
 
 CmdHelp.new "admin", "quit", "quit", "Stops PhotonBot (lvl11)"
-oncmd(/quit/) do |m, data|
-  if db_getperm(m.bot, m.host) == 11
-    App.bots.each do |_, bot|
-      bot.write "QUIT :Exiting..."
-    end
-    exit
-  else
-    fail CMDNoPermError, $err_noperms
+oncmd(/quit/, 0, 11) do |m, data|
+  App.bots.each do |_, bot|
+    bot.write "QUIT :Exiting..."
   end
+  exit
 end

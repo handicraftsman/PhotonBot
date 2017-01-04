@@ -12,11 +12,12 @@ load "cmd/calc.rb"
 
 load "cmd/utils.rb"
 load "cmd/chanop.rb"
+load "cmd/ignores.rb"
 
 # Rus
 load "cmd/rus.rb"
 
 # Unknown
 oncmd(/.+/) do |m, data|
-  m.reply "Unknown command. Try ;help for help."
+  m.bot.a_notice m.nick, "Unknown command. Try ;help for help."
 end
