@@ -45,7 +45,7 @@ module App
           @autojoin.each do |x|
             self.write "JOIN #{x}"
           end
-        elsif data = /^:(.+) PRIVMSG (.+) :(.+)/.match(line)
+        elsif data = /^:(.+?) PRIVMSG (.+?) :(.+)/.match(line)
           sender = data[1]
           target = data[2]
           message = data[3]
