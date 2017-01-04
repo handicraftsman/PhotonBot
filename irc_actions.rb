@@ -13,7 +13,9 @@ module App
       self
     end
     def a_privmsg(target, msg)
-      self.write "PRIVMSG #{target} :\u200B#{msg}"
+      msg.to_s.spliteach(400).each do |s|
+        self.write "PRIVMSG #{target} :\u200B#{s}"
+      end
       self
     end
     def a_ctcp(target, msg)
@@ -25,7 +27,9 @@ module App
       self
     end
     def a_notice(target, msg)
-      self.write "NOTICE #{target} :\u200B#{msg}"
+      msg.to_s.spliteach(400).each do |s|
+        self.write "NOTICE #{target} :\u200B#{s}"
+      end
       self
     end
     def a_nctcp(target, msg)

@@ -36,10 +36,16 @@ module App
           $cmds.each do |x|
             if data = x[1][0].match(@message)
               RG::Log.write "Starting #{x[1][1].inspect}"
-              if $delays[x[0]] == nil
-                $delays[x[0]] = 0
+              if $delays[@bot.name] == nil
+                $delays[@bot.name] = Hash.new
               end
-              y = ($delays[x[0]] - getsecs).abs
+              if $delays[@bot.name][@sender_raw] == nil
+                $delays[@bot.name][@sender_raw] = Array.new
+              end
+              if $delays[@bot.name][@sender_raw][x[0]] == nil
+                $delays[@bot.name][@sender_raw][x[0]] = 0
+              end
+              y = ($delays[@bot.name][@sender_raw][x[0]] - getsecs).abs
               ignore = false
               if (perm = db_getperm(@bot, @host)) < x[1][3]
                 if perm < 0
@@ -49,12 +55,12 @@ module App
                 end
               end
               unless ignore
-                if ($delays[x[0]] == 0) or (y > x[1][2]) or (y <= 0) or (db_getperm(@bot, @host) >= $nodelaylvl)
+                if ($delays[@bot.name][@sender_raw][x[0]] == 0) or (y > x[1][2]) or (y <= 0) or (db_getperm(@bot, @host) >= $nodelaylvl)
                   i = x[1]
-                  $delays[x[0]] = getsecs + i[2]
+                  $delays[@bot.name][@sender_raw][x[0]] = getsecs + i[2]
                   i[1].call(self, data)
                 else
-                  self.bot.a_nctcp @nick, "err: you must wait #{($delays[x[0]] - getsecs)} seconds!"
+                  self.bot.a_nctcp @nick, "err: you must wait #{(y)} seconds!"
                 end
               end
 

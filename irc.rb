@@ -2,7 +2,7 @@ load "./cmd/perm/db.rb"
 
 module App
   class Bot
-    attr_reader :name, :user, :nick, :rname, :pass, :use_pass, :host, :port, :autojoin, :autoowner
+    attr_reader :name, :user, :nick, :rname, :pass, :use_pass, :host, :port, :autojoin, :autoowner, :queue
 
     def initialize(conf)
       # conf[0] - server-name
@@ -20,30 +20,31 @@ module App
       @autojoin = conf[1]["autojoin"]
       @autoowner = conf[1]["autoowner"]
 
-      RG::Log.write self.inspect
-      RG::Log.write "DB-init: " + @name
+      RG::Log.write "Bot> " + self.inspect
+      RG::Log.write "DB-init> " + @name
       db_new(self)
     end
 
     def start!
       @sock = TCPSocket.new @host, @port
       if @use_pass
-        self.write "PASS #{@pass}"
+        self.raw_write "PASS #{@pass}"
       end
-      self.write "USER #{@user} 0 * :#{@rname}"
-      self.write "NICK #{@nick}"
+      self.raw_write "USER #{@user} 0 * :#{@rname}"
+      self.raw_write "NICK #{@nick}"
       
+      Thread.new { self.thr_writer! }
       while line = @sock.gets.force_encoding("UTF-8")
         # Write message
         RG::Log.write "#{@name}:< #{line}"
         
         if line[/^PING :(.+)/]
           # Reply to ping
-          self.write "PONG :#{$1}"
+          self.raw_write "PONG :#{$1}"
         elsif line[/^:(.+) 001/]
         # Autojoin when 001
           @autojoin.each do |x|
-            self.write "JOIN #{x}"
+            self.raw_write "JOIN #{x}"
           end
         elsif data = /^:(.+?) PRIVMSG (.+?) :(.+)/.match(line)
           sender = data[1]
@@ -62,16 +63,25 @@ module App
       end
     end
 
-    def self.getCodeRegex(code)
-      
+    def thr_writer!
+      @queue = Queue.new
+      loop do
+        self.raw_write @queue.pop
+        sleep 1
+      end
+      sleep 0.1
     end
 
-    #def reader(line)
-    #end
+    def raw_write(msg)
+      @sock.puts msg.encode("UTF-8", msg.encoding)
+    end
 
     def write(msg)
+      if @queue == nil
+        @queue = Array.new
+      end
       RG::Log.write "#{@name}:> #{msg.encode('UTF-8', msg.encoding)}"
-      @sock.puts msg.encode("UTF-8", msg.encoding)
+      @queue << msg
     end
 
     def inspect

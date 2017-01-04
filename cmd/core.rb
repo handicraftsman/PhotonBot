@@ -1,7 +1,7 @@
 $cmds = {}
 $cmdchar = "^;"
 $cmdpos = 0
-$delays = Array.new
+$delays = Hash.new
 $nodelaylvl = 8
 
 def getsecs()
@@ -34,6 +34,6 @@ def reload
   $cmds = {}
   $cmdpos = 0
   $cmd_help = Hash.new
-  $delays = {}
+  $delays = Hash.new
   loader
 end
