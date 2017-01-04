@@ -68,8 +68,6 @@ def db_ignored?(bot, data)
   rows = db.execute %{select * from ignores}
   rows.each do |row|
     regex = row[0].gsub(".", "\\.").gsub("*", ".*")
-    puts regex.inspect
-    puts Regexp.new(regex).inspect
     if Regexp.new(regex).match(data)
       return true
     end
