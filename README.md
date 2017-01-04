@@ -40,9 +40,10 @@ freenode:
 ```
 
 # Dev-help
-- To add new command, use `oncmd(/regex/, delay) do |m, data| ... end #`. `delay` 
+- To add new command, use `oncmd(/regex/, delay, perm) do |m, data| ... end #`. `delay` 
   is optional argument. Default value - `0` (in seconds). Use it when you need to 
-  set delay for command
+  set delay for command. Same with `perm` (sets permission-level for command), but
+  to use it you should also provide `delay` argument.
 - To add help entry, use `CmdHelp.new "part", "name", "syntax", "description"`
 - Don't forget to load all your command-files in `/cmd/loader.rb`
 
