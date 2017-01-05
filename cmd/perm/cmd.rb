@@ -9,7 +9,7 @@ oncmd(/sql (.+)/, 0, 10) do |m, data|
   query = data[1]
   db = $dbs[m.bot.name]
   out = db.execute query
-  m.reply out
+  m.nreply out
 end
 
 CmdHelp.new "admin", "csql", "csql <server> <query>", "Cross-server counterpart of `sql` (lvl10)"
@@ -17,7 +17,7 @@ oncmd(/csql (.+?) (.+)/, 0, 10) do |m, data|
   query = data[2]
   db = $dbs[data[1]]
   out = db.execute query
-  m.reply out
+  m.nreply out
 end
 
 CmdHelp.new "admin", "esql", "esql <query>", "Executes given SQL-query on all servers (lvl11)"
@@ -25,7 +25,7 @@ oncmd(/esql (.+)/, 0, 11) do |m, data|
   query = data[1]
   $dbs.each do |name, db|
     out = db.execute query
-    m.nreply "SQL: #{name} -> #{out}"
+    m.nnreply "SQL: #{name} -> #{out}"
   end
 end
 
