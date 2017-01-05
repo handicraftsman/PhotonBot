@@ -2,7 +2,7 @@
 CmdHelp.new "utils", "msg", "msg <target> <text>", "Sends given message to the target (lvl5)"
 oncmd(/msg (.+?) (.+)/, 0, 5) do |m, data|
   m.bot.a_privmsg(data[1], data[2])
-  m.rneply "Sent!"
+  m.nreply "Sent!"
 end
 
 CmdHelp.new "utils", "cmsg", "cmsg <server> <target> <text>", "Cross-server counterpart of `msg` (lvl8)"
