@@ -28,10 +28,34 @@ oncmd(/flushq/, 0, 9) do |m, data|
   m.nreply "Flushed queue!"
 end
 
-CmdHelp.new "admin", "cflushq", "cflushq", "Cross-server counterpart of `flushq` (lvl10)"
+CmdHelp.new "admin", "cflushq", "cflushq <server>", "Cross-server counterpart of `flushq` (lvl10)"
 oncmd(/cflushq (.+)/, 0, 10) do |m, data|
   App.bots[data[1]].queue.clear
   m.nreply "Flushed queue!"
+end
+
+CmdHelp.new "admin", "raw", "raw <data>", "Sends raw data to socket (lvl10)"
+oncmd(/raw (.+)/, 0, 10) do |m, data|
+  m.bot.write data[1]
+  m.nreply "Sent!"
+end
+
+CmdHelp.new "admin", "craw", "craw <server> <data>", "Cross-server counterpart of `raw` (lvl11)"
+oncmd(/craw (.+?) (.+)/, 0, 11) do |m, data|
+  App.bots[data[1]].write data[2]
+  m.nreply "Sent!"
+end
+
+CmdHelp.new "admin", "nick", "nick <nick>", "Changes nick (lvl10)"
+oncmd(/nick (.+)/, 0, 10) do |m, data|
+  m.bot.write "NICK " + data[1]
+  m.nreply "Sent!"
+end
+
+CmdHelp.new "admin", "cnick", "cnick <server> <nick>", "Cross-server counterpart of `nick` (lvl11)"
+oncmd(/cnick (.+) (.+)/, 0, 11) do |m, data|
+  App.bots[data[1]].write "NICK " + data[2]
+  m.nreply "Sent!"
 end
 
 # CTCP

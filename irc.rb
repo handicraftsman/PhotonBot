@@ -56,7 +56,7 @@ module App
               Reactor::Privmsg.new(self, sender, target, message)
             rescue StandardError => e
               RG::Log.err e.inspect
-              self.a_notice (/(.*)!.*@.*/.match sender)[1], "err: #{e.inspect}" 
+              self.a_notice(/(.*)!.*@.*/.match(sender)[1], "err: #{e.inspect}") 
             end
           end
         end
@@ -67,7 +67,7 @@ module App
       @queue = Queue.new
       loop do
         self.raw_write @queue.pop
-        sleep 1
+        sleep 0.7
       end
       sleep 0.1
     end

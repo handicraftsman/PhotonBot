@@ -1,5 +1,9 @@
 require "rubygoods"
-require "sqlite3"
+#unless RUBY_PLATFORM == "java"
+  require "sqlite3"
+#else
+#  require "activerecord-jdbcsqlite3-adapter" #Buggy
+#end
 
 require "date"
 require "yaml"

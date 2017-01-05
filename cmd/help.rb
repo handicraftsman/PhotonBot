@@ -55,20 +55,20 @@ def render_help_list(query)
 end
 
 CmdHelp.new "help", "help", "help [cmd]", "Displays help for given command"
-oncmd(/help (.+)/, delay=5) do |m, data|
+oncmd(/help (.+)/) do |m, data|
   query = data[1]
   m.nreply render_help_cmd(query)
 end
-oncmd(/help/, delay=5) do |m, data|
+oncmd(/help/) do |m, data|
   m.nreply "Use `list` command to list all parts. `list <part>` " +
     "to list all commands in the given part. Use `help <cmd>` to get info about given command"
 end
 
 CmdHelp.new "help", "list", "list [part]", "Displays part list. If part given - displays command list in that part"
-oncmd(/list (.+)/, delay=5) do |m, data|
+oncmd(/list (.+)/) do |m, data|
   query = data[1]
   m.nreply render_help_list(query)
 end
-oncmd(/list/, delay=5) do |m, data|
+oncmd(/list/) do |m, data|
   m.nreply render_help_list(";")
 end

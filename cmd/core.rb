@@ -1,4 +1,4 @@
-$cmds = {}
+$cmds = Array.new
 $cmdchar = "^;"
 $cmdpos = 0
 $delays = Hash.new
@@ -9,15 +9,30 @@ def getsecs()
   ((x.hour*60) + x.min)*60 + x.sec
 end
 
+class IRCCommand
+  attr_reader :regex, :delay, :lastused, :perm, :func
+
+  def initialize(regex, delay, perm, &func)
+    @regex    = regex # 0
+    @delay    = delay # 2
+    @perm     = perm  # 3
+    @func     = func  # 1
+    @lastused = Hash.new
+  end
+
+  def run(m, data)
+    @func.call(m, data)
+  end
+
+  def inspect
+    %{<IRCCommand:id#{self.object_id} @regex="#{@regex.inspect} @delay=#{@delay} @perm=#{@perm} @func="#{@func.inspect}">}
+  end
+end
+
 def onmsg(regex, delay=0, perm=0, &func)
-  $cmds[$cmdpos] = [
-    Regexp.new(regex), #0
-    func,              #1
-    delay,             #2
-    perm,              #3
-  ]
-  RG::Log.write "CMD> " + $cmds[$cmdpos].inspect
-  $cmdpos += 1
+  cmd = IRCCommand.new(Regexp.new(regex), delay, perm, &func)
+  $cmds << cmd
+  RG::Log.write cmd.inspect
 end
 
 def oncmd(regex, delay=0, perm=0, &func)
@@ -31,8 +46,7 @@ def onctcp(regex, delay=0, perm=0, &func)
 end
 
 def reload
-  $cmds = {}
-  $cmdpos = 0
+  $cmds = Array.new
   $cmd_help = Hash.new
   $delays = Hash.new
   loader

@@ -34,37 +34,33 @@ module App
         ignored = db_ignored?(self.bot, self.sender_raw)
         unless ignored and (@host != @bot.autoowner)
           $cmds.each do |x|
-            if data = x[1][0].match(@message)
-              RG::Log.write "Starting #{x[1][1].inspect}"
-              if $delays[@bot.name] == nil
-                $delays[@bot.name] = Hash.new
+            if data = x.regex.match(@message)
+              RG::Log.write "Starting #{x.func.inspect}"
+              if x.lastused[@bot.name] == nil
+                x.lastused[@bot.name] = Hash.new
               end
-              if $delays[@bot.name][@sender_raw] == nil
-                $delays[@bot.name][@sender_raw] = Array.new
+              if x.lastused[@bot.name][@sender_raw] == nil
+                x.lastused[@bot.name][@sender_raw] = 0
               end
-              if $delays[@bot.name][@sender_raw][x[0]] == nil
-                $delays[@bot.name][@sender_raw][x[0]] = 0
-              end
-              y = ($delays[@bot.name][@sender_raw][x[0]] - getsecs).abs
+              y = (x.lastused[@bot.name][@sender_raw] - getsecs).abs
               ignore = false
-              if (perm = db_getperm(@bot, @host)) < x[1][3]
+              if (perm = db_getperm(@bot, @host)) < x.perm
                 if perm < 0
                   ignore = true
                 else
-                  fail CMDNoPermError, "Your permission level must be at least #{x[1][3]} to do that!"
+                  fail CMDNoPermError, "Your permission level must be at least #{x.perm} to do that!"
                 end
               end
               unless ignore
-                if ($delays[@bot.name][@sender_raw][x[0]] == 0) or (y > x[1][2]) or (y <= 0) or (db_getperm(@bot, @host) >= $nodelaylvl)
-                  i = x[1]
-                  $delays[@bot.name][@sender_raw][x[0]] = getsecs + i[2]
-                  i[1].call(self, data)
+                if (x.lastused[@bot.name][@sender_raw] == 0) or (y > x.delay) or (y <= 0) or (db_getperm(@bot, @host) >= $nodelaylvl)
+                  x.lastused[@bot.name][@sender_raw] = getsecs + x.delay
+                  x.run(self, data)
                 else
                   self.bot.a_nctcp @nick, "err: you must wait #{(y)} seconds!"
                 end
               end
 
-              RG::Log.write "Finished #{x[1][1].inspect}"
+              RG::Log.write "Finished #{x.func.inspect}"
               break
             end
           end

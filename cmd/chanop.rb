@@ -184,3 +184,35 @@ oncmd(/cunexempt (.+?) (.+?) (.+)/, 0, 9) do |m, data|
   App.bots[data[1]].a_exempt(data[2], data[3])
   m.nreply "Sent!"
 end
+
+
+
+
+# KICK
+CmdHelp.new "chanop", "kick", "kick [chan] <target> [:reason]", "Kicks target (lvl6)"
+oncmd(/kick (.+?) :(.+)/, 0, 6) do |m, data|
+  m.bot.write "KICK #{m.target} #{data[1]} :#{data[2]}"
+  m.nreply "Sent!"
+end
+oncmd(/kick (.+?) (.+)/, 0, 6) do |m, data|
+  m.bot.write "KICK #{data[1]} #{data[2]}"
+  m.nreply "Sent!"
+end
+oncmd(/kick (.+)/, 0, 6) do |m, data|
+  m.bot.write "KICK #{m.target} #{data[1]}"
+  m.nreply "Sent!"
+end
+oncmd(/kick (.+?) (.+?) :(.+)/, 0, 6) do |m, data|
+  m.bot.write "KICK #{data[1]} #{data[2]} :#{data[3]}"
+  m.nreply "Sent!"
+end
+
+CmdHelp.new "chanop", "kick", "ckick <server> <chan> <target> [:reason]", "Cross-server counterpart of `kick` (lvl9)"
+oncmd(/ckick (.+?) (.+?) (.+)/, 0, 9) do |m, data|
+  App.bots[data[1]].write "KICK #{data[2]} #{data[3]}"
+  m.nreply "Sent!"
+end
+oncmd(/ckick (.+?) (.+?) (.+?) :(.+)/, 0, 9) do |m, data|
+  App.bots[data[1]].write "KICK #{data[2]} #{data[3]} :#{data[4]}"
+  m.nreply "Sent!"
+end

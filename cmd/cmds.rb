@@ -7,7 +7,7 @@ load "cmd/eval.rb"
 load "cmd/joinpart.rb"
 load "cmd/msg.rb"
 
-load "cmd/ping.rb"
+load "cmd/random.rb"
 load "cmd/calc.rb"
 
 load "cmd/utils.rb"
