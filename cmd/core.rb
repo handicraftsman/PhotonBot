@@ -25,7 +25,7 @@ class IRCCommand
   end
 
   def inspect
-    %{<IRCCommand:id#{self.object_id} @regex="#{@regex.inspect} @delay=#{@delay} @perm=#{@perm} @func="#{@func.inspect}">}
+    %{<IRCCommand:0x#{self.object_id.to_s(16)} @regex="#{@regex.inspect} @delay=#{@delay} @perm=#{@perm} @func="#{@func.inspect}">}
   end
 end
 

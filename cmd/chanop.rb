@@ -207,7 +207,7 @@ oncmd(/kick (.+?) (.+?) :(.+)/, 0, 6) do |m, data|
   m.nreply "Sent!"
 end
 
-CmdHelp.new "chanop", "kick", "ckick <server> <chan> <target> [:reason]", "Cross-server counterpart of `kick` (lvl9)"
+CmdHelp.new "chanop", "ckick", "ckick <server> <chan> <target> [:reason]", "Cross-server counterpart of `kick` (lvl9)"
 oncmd(/ckick (.+?) (.+?) (.+)/, 0, 9) do |m, data|
   App.bots[data[1]].write "KICK #{data[2]} #{data[3]}"
   m.nreply "Sent!"

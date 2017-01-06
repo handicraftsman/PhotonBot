@@ -56,7 +56,7 @@ module App
               Reactor::Privmsg.new(self, sender, target, message)
             rescue StandardError => e
               RG::Log.err e.inspect
-              self.a_notice(/(.*)!.*@.*/.match(sender)[1], "err: #{e.inspect}") 
+              self.a_notice(/(.*)!.*@.*/.match(sender)[1], "err: #{e.inspect}".delete("\n")) 
             end
           end
         end
@@ -85,7 +85,7 @@ module App
     end
 
     def inspect
-      %{<App::Bot:id#{self.object_id} `#{@name}` @host=#{@host} @port=#{@port} @user=#{@user} @nick=#{@nick}>}
+      %{<App::Bot:0x#{self.object_id.to_s(16)} `#{@name}` @host=#{@host} @port=#{@port} @user=#{@user} @nick=#{@nick}>}
     end
   end
 end

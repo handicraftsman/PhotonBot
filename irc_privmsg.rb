@@ -1,5 +1,8 @@
 load "./cmd/loader.rb"
 
+$relaypoints  = ["", ""]
+$relayenabled = false
+
 module App
   module Reactor
     class Privmsg
@@ -27,8 +30,16 @@ module App
                     @nick
                   end
 
-        if "&#+!".include? @target[0]
-        else
+        if $relayenabled
+          if $relaypoints.include?(relayme = self.bot.name + "!" + @sendto)
+            if $relaypoints.index(relayme) == 1
+              to = 0
+            else
+              to = 1
+            end
+            rdata = /(.+?)!(.+)/.match $relaypoints[to]
+            App.bots[rdata[1]].a_privmsg(rdata[2], "<#{@nick}> #{@message}") 
+          end
         end
 
         ignored = db_ignored?(self.bot, self.sender_raw)

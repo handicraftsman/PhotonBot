@@ -13,6 +13,7 @@ load "cmd/calc.rb"
 load "cmd/utils.rb"
 load "cmd/chanop.rb"
 load "cmd/ignores.rb"
+load "cmd/relay.rb"
 
 # Rus
 load "cmd/rus.rb"
