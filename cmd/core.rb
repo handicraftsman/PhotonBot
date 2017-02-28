@@ -46,6 +46,8 @@ def onctcp(regex, delay=0, perm=0, &func)
 end
 
 def reload
+  $bw_enabled = false
+  $bw_loaded = false
   $cmds = Array.new
   $cmd_help = Hash.new
   $delays = Hash.new

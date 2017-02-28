@@ -69,3 +69,22 @@ onctcp(/TIME/) do |m, data|
   m.bot.a_nctcp m.nick, "TIME #{DateTime.now.gregorian.strftime "%d.%m.%Y|%H:%M:%S"}"
 end
 
+CmdHelp.new "utils", "title", "title <http(s)://example.com>", "Gets title of given HTML page URL"
+oncmd(/title (http[s]{0,1}:\/\/.+?)/) do |m, data|
+  dat = HTTP.get(data[1])
+  #m.nreply(data[1] + " | " + dat.code) # Remove that after finishing
+  while (dat.code == 301) or (dat.code == 302)
+    #m.nreply(data[1] + " | " + dat.code) # Remove that after finishing
+    dat = HTTP.get(dat["Location"])
+  end
+
+  if dat["Content-Type"][/text\/html.*/]
+    if dat.code != 200
+      m.reply "[#{data[1]} : Code #{dat.code}]"
+    else
+      h = Nokogiri::HTML(dat.body.to_s)
+      o = h.css("title").children.to_s
+      m.reply "[#{data[1]} | #{o}]"
+    end
+  end
+end

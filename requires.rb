@@ -8,6 +8,8 @@ require "rubygoods"
 require "date"
 require "yaml"
 require "socket"
+require "http"
+require "nokogiri"
 
 require "irb"
 

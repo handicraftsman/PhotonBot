@@ -23,6 +23,18 @@ def db_new(bot)
         regex varchar(64) 
       );
     SQL
+    db.execute <<-SQL
+      create table badwords (
+        regex varchar(64) 
+      );
+    SQL
+    db.execute <<-SQL
+      create table extra ( 
+        key varchar(64), 
+        value varchar(64)
+      );
+    SQL
+    
     if bot.autoowner != nil
       db.execute %{insert into perms (host, lvl) values (\"#{bot.autoowner}\", 11);}
     end

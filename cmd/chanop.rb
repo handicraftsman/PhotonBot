@@ -13,7 +13,7 @@ end
 CmdHelp.new "chanop", "cop", "cop <server> <chan> <user>", "Cross-server counterpart of `op` (lvl9)"
 oncmd(/cop (.+?) (.+?) (.+)/, 0, 9) do |m, data|
   App.bots[data[1]].a_op(data[2], data[3])
-  m.rneply "Sent!"
+  m.nreply "Sent!"
 end
 
 CmdHelp.new "chanop", "deop", "deop [chan] <user>", "Deops target (lvl6)"

@@ -38,8 +38,24 @@ module App
               to = 1
             end
             rdata = /(.+?)!(.+)/.match $relaypoints[to]
-            App.bots[rdata[1]].a_privmsg(rdata[2], "<#{@nick}> #{@message}") 
+            if d = /\x01ACTION (.+)\x01/.match(@message)
+              App.bots[rdata[1]].a_privmsg(rdata[2], "* #{@nick} #{d[1]}")
+            else
+              App.bots[rdata[1]].a_privmsg(rdata[2], "<#{@nick}> #{@message}") 
+            end
           end
+        end
+
+        if $bw_enabled
+          unless $bw_loaded
+            bw_load
+          end
+          $bw_databases[@bot.name].each do |e|
+            if e.match(@message)
+              self.bot.a_nctcp(@nick, $bw_messages[@bot.name].gsub("[[nick]]", @nick))
+              break
+            end
+          end  
         end
 
         ignored = db_ignored?(self.bot, self.sender_raw)

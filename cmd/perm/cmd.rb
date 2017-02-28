@@ -25,7 +25,7 @@ oncmd(/esql (.+)/, 0, 11) do |m, data|
   query = data[1]
   $dbs.each do |name, db|
     out = db.execute query
-    m.nnreply "SQL: #{name} -> #{out}"
+    m.nreply "SQL: #{name} -> #{out}"
   end
 end
 

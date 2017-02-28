@@ -37,27 +37,35 @@ module App
       while line = @sock.gets.force_encoding("UTF-8")
         # Write message
         RG::Log.write "#{@name}:< #{line}"
-        
-        if line[/^PING :(.+)/]
-          # Reply to ping
-          self.raw_write "PONG :#{$1}"
-        elsif line[/^:(.+) 001/]
-        # Autojoin when 001
-          @autojoin.each do |x|
-            self.raw_write "JOIN #{x}"
-          end
-        elsif data = /^:(.+?) PRIVMSG (.+?) :(.+)/.match(line)
-          sender = data[1]
-          target = data[2]
-          message = data[3]
-          # PRIVMSG-parser
-          Thread.new do
-            begin
-              Reactor::Privmsg.new(self, sender, target, message)
-            rescue StandardError => e
-              RG::Log.err e.inspect
-              self.a_notice(/(.*)!.*@.*/.match(sender)[1], "err: #{e.inspect}".delete("\n")) 
-            end
+        self.react(line)
+      end
+    end
+
+    def react(line)
+      if line[/^PING :(.+)/]
+        # Reply to ping
+        self.raw_write "PONG :#{$1}"
+      elsif data = /^:(.+?)!.+?@(.+?) PRIVMSG #{@nick} :\x01R\x01/.match(line)
+        if data[2] == @autoowner
+          reload
+          self.a_nctcp data[1], "R DONE!"
+        end
+      elsif line[/^:(.+) 001/]
+      # Autojoin when 001
+        @autojoin.each do |x|
+          self.raw_write "JOIN #{x}"
+        end
+      elsif data = /^:(.+?) PRIVMSG (.+?) :(.+)/.match(line)
+        sender = data[1]
+        target = data[2]
+        message = data[3]
+        # PRIVMSG-parser
+        Thread.new do
+          begin
+            Reactor::Privmsg.new(self, sender, target, message)
+          rescue StandardError => e
+            RG::Log.err e.inspect
+            self.a_notice(/(.*)!.*@.*/.match(sender)[1], "err: #{e.inspect}".delete("\n")) 
           end
         end
       end
