@@ -17,8 +17,6 @@ load "cmd/relay.rb"
 
 load "cmd/badwords.rb"
 
-load "cmd/cleverbot.rb"
-
 # Rus
 load "cmd/rus.rb"
 

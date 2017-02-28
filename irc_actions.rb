@@ -14,7 +14,7 @@ module App
     end
     def a_privmsg(target, msg)
       msg.to_s.spliteach(400).each do |s|
-        self.write "PRIVMSG #{target} :\u200B#{s}"
+        self.write "PRIVMSG #{target} :\u200B#{s.gsub("\n", "\\n")}"
       end
       self
     end
@@ -28,7 +28,7 @@ module App
     end
     def a_notice(target, msg)
       msg.to_s.spliteach(400).each do |s|
-        self.write "NOTICE #{target} :\u200B#{s}"
+        self.write "NOTICE #{target} :\u200B#{s.gsub("\n", "\\n")}"
       end
       self
     end
