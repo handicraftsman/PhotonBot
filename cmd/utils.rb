@@ -34,8 +34,8 @@ oncmd(/cflushq (.+)/, 0, 10) do |m, data|
   m.nreply "Flushed queue!"
 end
 
-CmdHelp.new "admin", "raw", "raw <data>", "Sends raw data to socket (lvl10)"
-oncmd(/raw (.+)/, 0, 10) do |m, data|
+CmdHelp.new "admin", "raw", "raw <data>", "Sends raw data to socket (lvl11)"
+oncmd(/raw (.+)/, 0, 11) do |m, data|
   m.bot.write data[1]
   m.nreply "Sent!"
 end
