@@ -61,7 +61,7 @@ end
 # CTCP
 onctcp(/VERSION/) do |m, data|
   m.bot.a_nctcp m.nick, "VERSION PhotonBot v#{$pbversion}. " +
-    "Ruby v#{RUBY_VERSION}-#{RUBY_PATCHLEVEL} on #{RUBY_PLATFORM}. " + 
+    "Ruby v#{RUBY_VERSION}-#{RUBY_PATCHLEVEL} on #{RUBY_PLATFORM}. " +
     "RubyGoods v#{RG.getgemver("rubygoods")}. SQLite3 v#{RG.getgemver("sqlite3")}"
 end
 
@@ -69,6 +69,15 @@ onctcp(/TIME/) do |m, data|
   m.bot.a_nctcp m.nick, "TIME #{DateTime.now.gregorian.strftime "%d.%m.%Y|%H:%M:%S"}"
 end
 
+onctcp(/PING (.*)/) do |m, data|
+  m.bot.a_nctcp m.nick, "PONG #{data[1].to_s}"
+end
+
+onctcp(/PING/) do |m, data|
+  m.bot.a_nctcp m.nick, "PONG"
+end
+
+# Titler
 CmdHelp.new "utils", "title", "title <http(s)://example.com>", "Gets title of given HTML page URL"
 oncmd(/title (http[s]{0,1}:\/\/.+?)/) do |m, data|
   dat = HTTP.get(data[1])
