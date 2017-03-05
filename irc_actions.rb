@@ -13,13 +13,13 @@ module App
       self
     end
     def a_privmsg(target, msg)
-      msg.to_s.spliteach(400).each do |s|
+      msg.to_s.colorize.spliteach(400).each do |s|
         self.write "PRIVMSG #{target} :\u200B#{s.gsub("\n", "\\n")}"
       end
       self
     end
     def a_ctcp(target, msg)
-      self.write "PRIVMSG #{target} :\x01#{msg}\x01"
+      self.write "PRIVMSG #{target} :\x01#{msg.colorize}\x01"
       self
     end
     def a_action(target, msg)
@@ -27,13 +27,13 @@ module App
       self
     end
     def a_notice(target, msg)
-      msg.to_s.spliteach(400).each do |s|
+      msg.to_s.colorize.spliteach(400).each do |s|
         self.write "NOTICE #{target} :\u200B#{s.gsub("\n", "\\n")}"
       end
       self
     end
     def a_nctcp(target, msg)
-      self.write "NOTICE #{target} :\x01#{msg}\x01"
+      self.write "NOTICE #{target} :\x01#{msg.colorize}\x01"
       self
     end
     def a_ban(channel, target)

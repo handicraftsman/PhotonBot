@@ -2,6 +2,7 @@ $running = false
 
 load "./conf.rb"
 load "./irc.rb"
+  load "./irc_color.rb"
   load "./irc_privmsg.rb"
   load "./irc_actions.rb"
 

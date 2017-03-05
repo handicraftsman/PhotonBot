@@ -24,7 +24,7 @@ def render_help_cmd(query)
   $cmd_help.each do |part, cmdarr|
     cmdarr.each do |cmd|
       if cmd.command == query
-        str = "Part: #{cmd.part} | Name: #{cmd.command} | Syntax: #{cmd.syntax} | Description: #{cmd.description}"
+        str = "%BPart:%N #{cmd.part} %B| Name:%N #{cmd.command} %B| Syntax:%N #{cmd.syntax} %B| Description:%N #{cmd.description}"
       end
     end
   end
@@ -37,7 +37,7 @@ end
 def render_help_list(query)
   str = ""
   if query == ";"
-    str = "Parts: "
+    str = "%BParts:%N "
     $cmd_help.each do |part, _|
       str << "#{part} "
     end
@@ -46,7 +46,7 @@ def render_help_list(query)
     unless $cmd_help[query]
       fail HelpError, "No such part"
     end
-    str = "Commands in `#{query}`: "
+    str = "%BCommands in `#{query}`:%N "
     $cmd_help[query].each do |cmd|
       str << cmd.command + " "
     end
@@ -60,8 +60,8 @@ oncmd(/help (.+)/) do |m, data|
   m.nreply render_help_cmd(query)
 end
 oncmd(/help/) do |m, data|
-  m.nreply "Use `list` command to list all parts. `list <part>` " +
-    "to list all commands in the given part. Use `help <cmd>` to get info about given command"
+  m.nreply "Use %Blist%N command to list all parts. %Blist <part>%N " +
+    "to list all commands in the given part. Use %Bhelp <cmd>%N to get info about given command"
 end
 
 CmdHelp.new "help", "list", "list [part]", "Displays part list. If part given - displays command list in that part"

@@ -31,8 +31,30 @@ end
 
 CmdHelp.new "random", "cookie", "cookie [target]", "Gives a cookie to the target (lvl5)"
 oncmd(/cookie (.+)/, 10, 0) do |m, data|
-  m.bot.a_action m.sendto, "gives a cookie to #{data[1].squish}" 
+  m.bot.a_action m.sendto, "gives a %Bcookie%N to %B#{data[1].squish}%N" 
 end
 oncmd(/cookie/, 10, 0) do |m, data|
-  m.reply "* #{m.nick} eats a cookie"
+  m.reply "%C%PURPLE* #{m.nick} eats a cookie%N"
+end
+
+oncmd(/echo (.+)/, 0, 0) do |m, data|
+  m.reply data[1]
+end
+
+onmsg(/^moo[o]*/) do |m, data|
+  str = "%B#{m.nick}: "
+  def rpair
+    x = ["?WHITE", "?BLACK", "?BLUE", "?GREEN", "?RED", "?BROWN", "?PURPLE", "?ORANGE",
+      "?YELLOW", "?LGREEN", "?CYAN", "?LCYAN", "?LBLUE", "?PINK", "?GREY", "?LGREY"]
+    "%C#{x.sample(2).join(",")}"
+  end
+  str << "#{rpair}M"
+  (32..48).to_a.sample.times do
+    str << ["#{rpair}o", "#{rpair}O"].sample
+  end
+  (1..3).to_a.sample.times do
+    str << "#{rpair}!"
+  end
+  str << "%N"
+  m.reply str
 end
